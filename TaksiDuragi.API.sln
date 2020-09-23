@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaksiDuragi.API", "TaksiDuragi.API.csproj", "{8AA15738-BA2A-4E8F-BC6C-408DC25FBB2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AA15738-BA2A-4E8F-BC6C-408DC25FBB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA15738-BA2A-4E8F-BC6C-408DC25FBB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA15738-BA2A-4E8F-BC6C-408DC25FBB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA15738-BA2A-4E8F-BC6C-408DC25FBB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE9BA23E-CD96-49E6-90B4-0C26F579A3BD}
+	EndGlobalSection
+EndGlobal
