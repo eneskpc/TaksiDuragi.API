@@ -46,7 +46,7 @@ namespace TaksiDuragi.API
                 options.AddPolicy(__CORS__POLICY_KEY__, builder =>
                 {
                     builder
-                    .AllowAnyOrigin()
+                    .WithOrigins("http://localhost:3000")
                     .AllowCredentials()
                     .AllowAnyHeader()
                     .AllowAnyMethod();
@@ -59,6 +59,9 @@ namespace TaksiDuragi.API
             services.AddCors();
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<ICallerRepository, CallerRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Appsettings:Token").Value);
 

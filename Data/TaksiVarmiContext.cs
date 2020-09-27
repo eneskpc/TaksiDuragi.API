@@ -19,6 +19,7 @@ namespace TaksiDuragi.API.Data
         public virtual DbSet<Caller> Callers { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Driver> Drivers { get; set; }
+        public virtual DbSet<UserDevice> UserDevices { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -92,6 +93,21 @@ namespace TaksiDuragi.API.Data
                 entity.Property(e => e.TaxiPlaque)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+            });
+
+            modelBuilder.Entity<UserDevice>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CreationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.SerialNumber)
+                    .IsRequired()
+                    .HasMaxLength(150);
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
 

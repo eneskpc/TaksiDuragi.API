@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaksiDuragi.API.Models
 {
@@ -13,5 +14,8 @@ namespace TaksiDuragi.API.Models
         public DateTime CreationDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; }
     }
 }
