@@ -11,9 +11,9 @@ namespace TaksiDuragi.API.Hubs
 {
     public class CallerHub : Hub
     {
-        private ICallerRepository _callerRepository;
-        private ICustomerRepository _customerRepository;
-        private IUserRepository _userRepository;
+        private readonly ICallerRepository _callerRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IUserRepository _userRepository;
 
         public CallerHub(ICallerRepository callerRepository, ICustomerRepository customerRepository, IUserRepository userRepository)
         {

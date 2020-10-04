@@ -1,21 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.EquivalencyExpression;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using SehirRehberi.API.Dtos;
 using TaksiDuragi.API.Data;
 using TaksiDuragi.API.Hubs;
+using TaksiDuragi.API.Models;
+using TaksiDuragi.API.Validators;
 
 namespace TaksiDuragi.API
 {
@@ -28,7 +28,7 @@ namespace TaksiDuragi.API
 
         public IConfiguration Configuration { get; }
 
-        public string __CORS__POLICY_KEY__
+        public string CORS_POLICY_KEY
         {
             get
             {
@@ -38,12 +38,12 @@ namespace TaksiDuragi.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserToRegisterValidator>());
             services.AddSignalR();
 
             services.AddCors(options =>
             {
-                options.AddPolicy(__CORS__POLICY_KEY__, builder =>
+                options.AddPolicy(CORS_POLICY_KEY, builder =>
                 {
                     builder
                     .WithOrigins("http://localhost:3000")
@@ -56,12 +56,26 @@ namespace TaksiDuragi.API
             services.AddDbContext<TaksiVarmiContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddAutoMapper((serviceProvider, automapper) =>
+            {
+                automapper.AddCollectionMappers();
+                automapper.AddProfile<AutoMapperProfile>();
+                automapper.UseEntityFrameworkCoreModel<TaksiVarmiContext>(serviceProvider);
+            }, typeof(TaksiVarmiContext).Assembly);
+
             services.AddCors();
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ICallerRepository, CallerRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddAuthorization(auth=>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+            });
 
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Appsettings:Token").Value);
 
@@ -85,7 +99,7 @@ namespace TaksiDuragi.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(__CORS__POLICY_KEY__);
+            app.UseCors(CORS_POLICY_KEY);
 
             app.UseHttpsRedirection();
 

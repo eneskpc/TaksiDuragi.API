@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using SehirRehberi.API.Dtos;
 using TaksiDuragi.API.Data;
 using TaksiDuragi.API.Models;
+using TaksiDuragi.API.Validators;
 
 namespace TaksiDuragi.API.Controllers
 {
@@ -74,7 +75,10 @@ namespace TaksiDuragi.API.Controllers
 
             var userToCreate = new User
             {
-                Email = userForRegisterDto.UserName
+                Email = userForRegisterDto.UserName,
+                TaxiStationName = userForRegisterDto.TaxiStationName,
+                CreationDate = DateTime.Now,
+                IsDeleted = false
             };
 
             User createdUser = await _authRepository.Register(userToCreate, userForRegisterDto.Password);
