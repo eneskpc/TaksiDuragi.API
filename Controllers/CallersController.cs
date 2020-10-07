@@ -34,9 +34,12 @@ namespace TaksiDuragi.API.Controllers
                 return Unauthorized();
             }
 
-            var callers = await _callerRepository.GetCallers<Caller>(userId);
+            int take = 20;
+            int pageNumber = string.IsNullOrEmpty(Request.Query["p"]) ? 1 : int.Parse(Request.Query["p"]);
 
-            if(callers == null)
+            var callers = await _callerRepository.GetCallers<CallerInfo>(userId, take, pageNumber - 1);
+
+            if (callers == null)
             {
                 return NoContent();
             }

@@ -15,19 +15,20 @@ namespace TaksiDuragi.API.Data
             _context = context;
         }
 
-        public async Task Add<T>(T entity) where T : class
+        public async Task<T> Add<T>(T entity) where T : class
         {
             await _context.AddAsync(entity);
+            if(await _context.SaveChangesAsync() > 0)
+            {
+                return entity;
+            }
+            return null;
         }
 
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
+            _context.SaveChanges();
         }
     }
 }

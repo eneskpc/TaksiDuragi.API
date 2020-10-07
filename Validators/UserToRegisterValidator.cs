@@ -1,10 +1,6 @@
 ﻿using FluentValidation;
-using SehirRehberi.API.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using TaksiDuragi.API.Dtos;
 
 namespace TaksiDuragi.API.Validators
 {

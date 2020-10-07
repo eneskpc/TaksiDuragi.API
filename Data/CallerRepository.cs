@@ -22,9 +22,9 @@ namespace TaksiDuragi.API.Data
             _mapper = mapper;
         }
 
-        public async Task Add<T>(T entity) where T : class
+        public async Task<T> Add<T>(T entity) where T : class
         {
-            await _appRepo.Add(entity);
+            return await _appRepo.Add(entity);
         }
 
         public void Delete<T>(T entity) where T : class
@@ -43,20 +43,16 @@ namespace TaksiDuragi.API.Data
             return caller;
         }
 
-        public async Task<List<T>> GetCallers<T>(int userID) where T : class
+        public async Task<List<T>> GetCallers<T>(int userID, int take = 10, int skip = 0) where T : class
         {
-            var callers = await _mapper.ProjectTo<T>(_context.Callers.Where(c => c.IsDeleted == false && c.UserId == userID)).ToListAsync();
+            var callers = await _mapper.ProjectTo<T>(_context.Callers.Include(c => c.Customer).DefaultIfEmpty().Where(c => c.IsDeleted == false && c.UserId == userID)
+                .OrderByDescending(c => c.CallDateTime).Skip(skip * take).Take(take)).ToListAsync();
 
             if (callers == null || callers.Count == 0)
             {
                 return null;
             }
             return callers;
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _appRepo.SaveAll();
         }
     }
 }

@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SehirRehberi.API.Dtos;
 using TaksiDuragi.API.Data;
+using TaksiDuragi.API.Dtos;
 using TaksiDuragi.API.Models;
-using TaksiDuragi.API.Validators;
 
 namespace TaksiDuragi.API.Controllers
 {

@@ -9,7 +9,7 @@ namespace TaksiDuragi.API.Data
 {
     public interface ICallerRepository : IAppRepository
     {
-        Task<List<T>> GetCallers<T>(int userID) where T : class;
+        Task<List<T>> GetCallers<T>(int userID, int take = 10, int skip = 0) where T : class;
         Task<T> GetCaller<T>(Expression<Func<Caller, bool>> query) where T : class;
     }
 }

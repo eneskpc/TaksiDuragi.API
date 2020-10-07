@@ -7,8 +7,7 @@ namespace TaksiDuragi.API.Data
 {
     public interface IAppRepository
     {
-        Task Add<T>(T entity) where T : class;
+        Task<T> Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
-        Task<bool> SaveAll();
     }
 }

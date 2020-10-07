@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using SehirRehberi.API.Dtos;
 using TaksiDuragi.API.Data;
 using TaksiDuragi.API.Hubs;
 using TaksiDuragi.API.Models;
@@ -56,13 +55,6 @@ namespace TaksiDuragi.API
             services.AddDbContext<TaksiVarmiContext>(x =>
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddAutoMapper((serviceProvider, automapper) =>
-            {
-                automapper.AddCollectionMappers();
-                automapper.AddProfile<AutoMapperProfile>();
-                automapper.UseEntityFrameworkCoreModel<TaksiVarmiContext>(serviceProvider);
-            }, typeof(TaksiVarmiContext).Assembly);
-
             services.AddCors();
             services.AddScoped<IAppRepository, AppRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -90,6 +82,11 @@ namespace TaksiDuragi.API
                 };
             });
 
+            services.AddAutoMapper((serviceProvider, automapper) =>
+            {
+                automapper.AddCollectionMappers();
+                automapper.UseEntityFrameworkCoreModel<TaksiVarmiContext>(serviceProvider);
+            }, typeof(TaksiVarmiContext).Assembly);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

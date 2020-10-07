@@ -49,11 +49,11 @@ namespace TaksiDuragi.API.Hubs
                 CustomerId = customer == null ? 0 : customer.Id
             };
 
-            await _callerRepository.Add(caller);
-            await _callerRepository.SaveAll();
+            caller = await _callerRepository.Add(caller);
 
             callerInfo.CallerNameSurname = customer?.NameSurname;
             callerInfo.CallerAddress = customer?.Address;
+            callerInfo.Id = caller.Id;
 
             await Clients.Groups(callerInfo.DeviceSerialNumber).SendAsync("ReceiveCallerInfo", callerInfo);
         }

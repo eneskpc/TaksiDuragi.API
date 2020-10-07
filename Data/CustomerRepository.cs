@@ -10,8 +10,8 @@ namespace TaksiDuragi.API.Data
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private TaksiVarmiContext _context;
-        private IAppRepository _appRepo;
+        private readonly TaksiVarmiContext _context;
+        private readonly IAppRepository _appRepo;
 
         public CustomerRepository(TaksiVarmiContext context, IAppRepository appRepo)
         {
@@ -19,9 +19,9 @@ namespace TaksiDuragi.API.Data
             _appRepo = appRepo;
         }
 
-        public async Task Add<T>(T entity) where T : class
+        public async Task<T> Add<T>(T entity) where T : class
         {
-            await _appRepo.Add(entity);
+            return await _appRepo.Add(entity);
         }
 
         public void Delete<T>(T entity) where T : class
@@ -49,11 +49,6 @@ namespace TaksiDuragi.API.Data
                 return null;
             }
             return customers;
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _appRepo.SaveAll();
         }
     }
 }
